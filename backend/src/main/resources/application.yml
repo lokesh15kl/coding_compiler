@@ -1,0 +1,46 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: compiler-platform
+  datasource:
+    url: jdbc:h2:mem:compiler_platform;MODE=MySQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: sa
+    password: 
+    driver-class-name: org.h2.Driver
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.H2Dialect
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+app:
+  jwt:
+    secret: change-this-secret-to-a-long-random-value-for-production-use
+    expiration-minutes: 1440
+  execution:
+    timeout-seconds: 8
+    max-memory-mb: 256
+    cpu-limit: 0.5
+
+logging:
+  level:
+    org.springframework.security: INFO
+    com.codeforge: INFO

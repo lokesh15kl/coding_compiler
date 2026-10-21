@@ -1,0 +1,33 @@
+CREATE TABLE users (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  role VARCHAR(20) NOT NULL
+);
+
+CREATE TABLE programs (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  title VARCHAR(255) NOT NULL,
+  language VARCHAR(50) NOT NULL,
+  code LONGTEXT NOT NULL,
+  share_id VARCHAR(32) NOT NULL UNIQUE,
+  created_at DATETIME NOT NULL,
+  updated_at DATETIME NOT NULL,
+  user_id BIGINT NOT NULL,
+  CONSTRAINT fk_program_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE TABLE execution_history (
+  id BIGINT PRIMARY KEY AUTO_INCREMENT,
+  program_id BIGINT NULL,
+  user_id BIGINT NOT NULL,
+  input LONGTEXT NULL,
+  output LONGTEXT NULL,
+  status VARCHAR(30) NOT NULL,
+  execution_time BIGINT NULL,
+  memory_usage BIGINT NULL,
+  created_at DATETIME NOT NULL,
+  CONSTRAINT fk_history_program FOREIGN KEY (program_id) REFERENCES programs(id) ON DELETE SET NULL,
+  CONSTRAINT fk_history_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
